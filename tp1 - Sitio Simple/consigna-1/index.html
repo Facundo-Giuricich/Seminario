@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Metadatos básicos del documento -->
+    <meta charset="UTF-8"> <!-- Define la codificación de caracteres a UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Hace que la página se adapte a dispositivos móviles -->
+    
+    <!-- Enlace a la hoja de estilos CSS externa -->
+    <link rel="stylesheet" href="assets/css/index.css">
+    
+    <!-- Título que aparecerá en la pestaña del navegador -->
+    <title>TP1</title>
+</head>
+<body>
+    <!-- Un contenedor principal para organizar el contenido -->
+    <div id="contenedorPadre">
+        
+        <!-- Título principal de la página -->
+        <h1>Nivelación - Creación de un sitio simple</h1>
+        
+        <!-- Una sección para el cuadro de texto -->
+        <div>
+            <h2>En este cuadro de texto puede escribir lo que quiera</h2>
+            <!-- 
+                Un 'textarea' es un campo de texto de múltiples líneas.
+                - id="cajaComentario": Identificador único para poder manipularlo con JavaScript.
+                - rows="5": Altura inicial del cuadro, en número de líneas.
+                - cols="50": Ancho inicial del cuadro, en número de caracteres.
+                - placeholder: Texto que aparece como sugerencia cuando el cuadro está vacío.
+            -->
+            <textarea id="cajaComentario" rows="5" cols="50" placeholder="Escriba su comentario"></textarea>
+        </div>
+        
+        <!-- 
+            Un botón.
+            - id="btnCambiarColor": Identificador único para JavaScript.
+            - type="button": Especifica que es un botón estándar en el que se puede hacer clic.
+        -->
+        <button id="btnCambiarColor" type="button">Cambiar Color</button>
+    </div>
+
+    <!-- 
+        Enlace al archivo JavaScript. 
+        Se coloca al final del 'body' para que la página HTML se cargue primero.
+        Esto asegura que los elementos (como el textarea y el botón) ya existan
+        cuando el script intente acceder a ellos.
+    -->
+    <script src="index.js"></script>
+</body>
+</html>

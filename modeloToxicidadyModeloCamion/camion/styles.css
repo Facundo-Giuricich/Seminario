@@ -1,0 +1,101 @@
+/* Fondo general */
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #f5f5f5, #e0e0e0, #cccccc);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+/* Contenedor principal */
+.container {
+    background-color: white;
+    width: 400px;
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0px 6px 20px rgba(0,0,0,0.15);
+}
+
+/* Título */
+h1 {
+    color: #2a4d69;
+    margin-bottom: 10px;
+}
+
+/* Texto descriptivo */
+p {
+    color: #4b86b4;
+    font-size: 15px;
+}
+
+/* INPUT FILE PERSONALIZADO */
+input[type="file"] {
+    margin: 20px 0;
+    color: #2a4d69;
+    font-weight: bold;
+}
+
+/* Botón interno del input file */
+input[type="file"]::file-selector-button {
+    background-color: #4b86b4;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-right: 10px;
+    transition: 0.3s;
+}
+
+/* Hover */
+input[type="file"]::file-selector-button:hover {
+    background-color: #2a4d69;
+}
+
+/* Input file */
+input[type="file"] {
+    margin: 20px 0;
+    color: #2a4d69;
+}
+
+/* Imagen preview */
+img {
+    display: none;
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    margin: 20px auto;
+    border-radius: 15px;
+    border: 3px solid #adcbe3;
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Botón */
+button {
+    background-color: #4b86b4;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: 0.3s ease;
+}
+
+/* Hover botón */
+button:hover {
+    background-color: #2a4d69;
+    transform: scale(1.05);
+}
+
+/* Resultado */
+#resultado {
+    margin-top: 20px;
+    font-weight: bold;
+    font-size: 18px;
+    color: #2a4d69;
+}

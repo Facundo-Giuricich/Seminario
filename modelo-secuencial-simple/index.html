@@ -1,0 +1,103 @@
+<!DOCTYPE html> 
+<html lang="es"> 
+<head>
+    <meta charset="UTF-8"> 
+    <title>Entrenamiento Modelo Lineal</title> <
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Cargamos TensorFlow.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script> <!-- Librería para trabajar con modelos de IA en el navegador -->
+
+    <style>
+        body { font-family: sans-serif; 
+            padding: 20px; 
+            line-height: 1.6; 
+        } /* Estilo general del body */
+
+        #output { 
+            color: #48d32f; 
+            font-weight: bold; 
+        } /* Texto verde para mostrar resultados */
+
+        #prediction-section { 
+        margin-top: 20px; 
+        display: none; 
+        border-top: 1px solid #ccc; 
+        padding-top: 20px; 
+    } /* Sección oculta hasta que termine el entrenamiento */
+
+    </style>
+</head>
+
+<body>
+
+    <h2>Entrenamiento del Modelo: y = 2x + 6</h2>   
+    <p id="status">Estado: Preparando datos...</p> 
+    <p id="output"></p> <!-- Acá se muestra cuando el modelo ya está listo -->
+
+    <!-- Sección de predicción oculta hasta que el modelo esté listo -->
+    <div id="prediction-section">
+        <label for="inputX">Introduce el valor de X:</label> <!-- Texto para el input -->
+        <input type="number" id="inputX"> <!-- Input donde el usuario mete un número -->
+        <button onclick="predict()">Predecir Y</button> <!-- Botón que llama a la función predict -->
+        <h3 id="result"></h3> <!-- Acá aparece el resultado -->
+    </div>
+
+    <script>
+        let model; // Variable global donde se va a guardar el modelo entrenado
+
+        async function learnLinear() { // Función principal que entrena el modelo
+            const statusLabel = document.getElementById('status'); // Referencia al texto de estado
+            const outputField = document.getElementById('output'); // Referencia al texto de salida
+
+            // 1. Crear el modelo secuencial
+            model = tf.sequential(); // Creamos un modelo vacío (tipo red neuronal simple)
+            model.add(tf.layers.dense({units: 1, inputShape: [1]})); // Agregamos una capa con 1 neurona (entrada: 1 valor)
+
+            model.compile({
+                loss: 'meanSquaredError', // Función de error (qué tan mal está prediciendo)
+                optimizer: 'sgd' // Algoritmo que ajusta los pesos (descenso de gradiente)
+            });
+
+            // 2. Generar datos para y = 2x + 6 (desde x = -6, 9 valores)
+            // x: [-6, -5, -4, -3, -2, -1, 0, 1, 2]
+            const xValues = [-6, -5, -4, -3, -2, -1, 0, 1, 2]; // Valores de entrada
+            const yValues = xValues.map(x => 2 * x + 6); // Calculamos la salida usando la fórmula
+
+            const xs = tf.tensor2d(xValues, [9, 1]); // Convertimos x en tensor (formato que usa TensorFlow)
+            const ys = tf.tensor2d(yValues, [9, 1]); // Convertimos y en tensor
+
+            // 3. Entrenar el modelo (mínimo 350 épocas)
+            statusLabel.innerText = "Estado: Entrenando modelo (350 épocas)..."; // Actualizamos estado
+            
+            await model.fit(xs, ys, { // Entrenamos el modelo con los datos
+                epochs: 350, // Cantidad de veces que recorre los datos
+                callbacks: {
+                    onEpochEnd: (epoch, logs) => { // Se ejecuta al terminar cada época
+                        console.log(`Época ${epoch}: Pérdida = ${logs.loss}`); // Muestra el error en consola
+                    }
+                }
+            });
+
+            // 4. Notificar que terminó
+            statusLabel.innerText = "Estado: ¡Entrenamiento Finalizado!"; // Cambia el estado
+            outputField.innerText = "El modelo ya está listo para ser utilizado."; // Mensaje al usuario
+            document.getElementById('prediction-section').style.display = 'block'; // Muestra la sección oculta
+        }
+
+        async function predict() { // Función para hacer predicciones
+            const xInput = parseFloat(document.getElementById('inputX').value); // Toma el valor ingresado
+            if (isNaN(xInput)) return; // Si no es número, corta
+
+            // Realizar la predicción
+            const prediction = model.predict(tf.tensor2d([xInput], [1, 1])); // Le pasamos el valor al modelo
+            const resultValue = await prediction.data(); // Obtenemos el resultado real
+
+            document.getElementById('result').innerText = `Resultado de la predicción (Y): ${resultValue[0].toFixed(4)}`; // Mostramos el resultado
+        }
+
+        // Iniciar el proceso
+        learnLinear(); // Llamamos a la función apenas carga la página
+    </script>
+</body>
+</html>

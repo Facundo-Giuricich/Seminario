@@ -1,0 +1,61 @@
+/* fondo general */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f2f5; /* gris claro */
+  text-align: center;
+  margin: 0;
+  padding: 20px;
+}
+
+/* título */
+h2 {
+  color: #0d6efd; /* azul */
+}
+
+/* inputs */
+input {
+  margin: 5px;
+  padding: 6px;
+  border: 1px solid #ced4da; /* gris */
+  border-radius: 8px;
+  text-align: center;
+  outline: none;
+}
+
+/* botones */
+button {
+  margin: 10px;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 10px;
+  background-color: #0d6efd; /* azul */
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* efecto hover */
+button:hover {
+  background-color: #0b5ed7; /* azul oscuro */
+  transform: scale(1.05);
+}
+
+/* contenedor de matrices */
+#matrices {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #e9ecef; /* gris claro */
+  border-radius: 15px;
+  display: inline-block;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* resultado */
+#resultado {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #dee2e6; /* gris */
+  border-radius: 15px;
+  font-weight: bold;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}

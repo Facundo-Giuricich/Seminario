@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predicción con TensorFlow.js</title>
+
+    <!-- TensorFlow -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+
+    <!-- Chart -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Predicción con TensorFlow.js</h1>
+
+        <!-- Botón para entrenar -->
+        <button id="btnEntrenar">Entrenar Modelo</button>
+
+        <p id="estado">Estado: Modelo no entrenado</p>
+
+        <!-- Gráfico -->
+        <section class="card">
+            <h2>Gráfica de pérdida durante el entrenamiento</h2>
+            <canvas id="graficoLoss"></canvas>
+
+            <p id="resumenLoss"></p>
+        </section>
+
+        <!-- Predicciones -->
+        <section class="card">
+            <h2>Predicción</h2>
+
+            <label>Valores de X (separados por comas):</label>
+            <input 
+                type="text" 
+                id="inputValores"
+                placeholder="Ej: 10,20,25"
+            >
+
+            <button id="btnPredecir">Predecir</button>
+
+            <div id="resultadoPrediccion"></div>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

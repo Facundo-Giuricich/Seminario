@@ -1,0 +1,27 @@
+
+//crear base de datos
+CREATE DATABASE instituto;
+USE instituto;
+CREATE TABLE alumnos (
+id INT AUTO_INCREMENT PRIMARY KEY,
+apellidos VARCHAR(200) NOT NULL,
+nombres VARCHAR(200) NOT NULL,
+dni VARCHAR(100) UNIQUE NOT NULL
+);
+
+CREATE USER 'usuario_consulta'@'%' IDENTIFIED BY '123';
+GRANT ALL PRIVILEGES ON instituto.* TO 'usuario_consulta'@'%';
+FLUSH PRIVILEGES;
+EXIT;
+
+
+//El @'%' significa que el usuario puede conectarse desde cualquier IP. Las comillas simples alrededor de
+usuario_consulta son obligatorias porque el guion medio requiere ese tratamiento en SQL.
+
+Verificar que el usuario funciona desde VM1
+mysql -u usuario_consulta -p123 -h 192.168.100.10 instituto
+
+# Debe mostrar: MariaDB [instituto]>
+# Para salir: EXIT;
+//Si da 'Access Denied', el usuario no fue creado correctamente. Volvé a entrar con sudo mysql -u root y ejecutá
+DROP USER 'usuario_consulta'@'%'; y después volvé a crearlo con los comandos de arriba.

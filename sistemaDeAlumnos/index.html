@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Sistema de Alumnos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif; 
+            max-width: 750px;
+            margin: 60px auto; 
+            padding: 32px; 
+            background-color: #f0f4f8; /* Gris muy claro azulado */
+            color: #334155; /* Gris oscuro */
+            line-height: 1.5;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2563eb; /* Azul brillante */
+            text-shadow: 1px 1px 0px #ffffff;
+        }
+
+        h2 { 
+            font-size: 18px;
+            font-weight: 700;
+            color: #1e40af; /* Azul oscuro */
+            margin-top: 30px;
+        }
+
+        input {
+            padding: 12px; 
+            margin: 6px; 
+            width: 220px;
+            border: 2px solid #cbd5e1; /* Gris claro */
+            border-radius: 10px;
+            outline: none;
+            font-size: 14px;
+            background-color: #ffffff;
+            transition: all 0.2s ease;
+            box-sizing: border-box; 
+        }
+
+        input:focus {
+            border-color: #3b82f6; /* Azul primario */
+            box-shadow: 0 0 0 8px rgba(59, 130, 246, 0.3); /* Sombra azul transparente */
+        }
+
+        button { 
+            padding: 12px 24px; 
+            margin: 6px; 
+            background-color: #3b82f6; /* Azul primario */
+            color: white; 
+            border: none; 
+            cursor: pointer; 
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 0px #1e40af; /* Azul oscuro para la profundidad */
+        }
+
+        button:hover {
+            background-color: #60a5fa; /* Azul más claro */
+            transform: translateY(2px);
+            box-shadow: 0 2px 0px #1e40af;
+        }
+
+        button:active {
+            transform: translateY(4px);
+            box-shadow: 0 0px 0px #1e40af;
+        } 
+
+        #mensaje {
+            margin: 15px 6px; 
+            padding: 12px 18px; 
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 700;
+            display: none;
+        }
+          
+        .exito { 
+            background-color: #dff0d8; 
+            color: #3c753d; 
+            display: block !important;
+        }
+
+        .error {
+            background-color: #f2dede; 
+            color: #a94442; 
+            display: block !important;
+        }
+
+        table { 
+            width: 100%; 
+            border-collapse: separate;
+            border-spacing: 0; 
+            margin-top: 20px;
+            background-color: #ffffff;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 6px 16px rgba(59, 130, 246, 0.15); /* Sombra suave azulada */
+            border: 2px solid #e2e8f0; /* Borde gris muy claro */
+        }
+
+        th, td {
+            padding: 14px 20px;
+            text-align: left;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        th {  
+            background-color: #3b82f6; /* Azul primario */
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+        } 
+      
+        td {
+            border-bottom: 2px solid #f0f4f8; /* Gris muy claro azulado */
+            color: #475569; /* Gris pizarra */
+        }
+
+        tr:last-child td { 
+            border-bottom: none;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8fafc; /* Gris casi blanco para filas pares */
+        }
+
+        tr:hover td { 
+            background-color: #e2e8f0; /* Gris claro azulado al pasar el mouse */
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Sistema de registro de alumnos</h1>
+    <h2>Cargar alumnos</h2>
+    <input type="text" id="apellidos" placeholder="Apellidos">
+    <input type="text" id="nombres" placeholder="Nombres">
+    <input type="text" id="dni" placeholder="DNI">
+    <br>
+    <button onclick="grabarAlumnos()">Guardar</button>
+    <div id="mensaje"></div>
+    
+    <h2>Lista de Alumnos</h2> 
+    <button onclick="consultarAlumnos()">Consultar</button>
+    <table id="tabla" style="display:none">
+        <thead>
+            <tr><th>Apellidos</th><th>Nombres</th><th>DNI</th></tr>
+        </thead>
+        <tbody id="cuerpo"></tbody>
+    </table>
+
+    <script>
+       const BACKEND = 'http://localhost:3454';
+
+       function grabarAlumnos() {
+           const apellidos = document.getElementById('apellidos').value.trim();
+           const nombres = document.getElementById('nombres').value.trim();
+           const dni = document.getElementById('dni').value.trim();
+           const msg = document.getElementById('mensaje');
+           
+           if (!apellidos || !nombres || !dni) {
+                msg.className = 'error';
+                msg.textContent = 'Completar todos los campos';
+                return;
+           }
+           
+           fetch(`${BACKEND}/grabaAlumnos`, {
+               method: 'POST',
+               headers: {
+                  'Content-Type': 'application/json'
+                  },
+               body: JSON.stringify({ apellidos, nombres, dni })
+           })
+           .then(r => r.json())
+           .then(data => {
+               if ((data.mensaje && data.mensaje.includes('correctamente')) || data.resultado === 1) {
+                   msg.className = 'exito';
+                   msg.textContent = 'OK: ' + data.mensaje;
+                   document.getElementById('apellidos').value ='';
+                   document.getElementById('nombres').value = '';
+                   document.getElementById('dni').value = '';
+              } else {
+                  msg.className = 'error';
+                  msg.textContent = 'Error: ' + data.mensaje;
+              }
+           })
+           .catch(() => {
+               msg.className = 'error';
+               msg.textContent = 'Error conectando al servidor';
+          });
+       }
+
+      function consultarAlumnos() {
+          fetch(`${BACKEND}/consultarAlumnos`)
+          .then(r => r.json())
+          .then(data => {
+              const cuerpo = document.getElementById('cuerpo');
+              cuerpo.innerHTML = '';
+              data.forEach(a => {
+                  cuerpo.innerHTML += `<tr><td>${a.apellidos}</td>
+                  <td>${a.nombres}</td><td>${a.dni}</td></tr>`;
+              });
+              document.getElementById('tabla').style.display = 'table';
+            })
+            .catch(() => alert('Error al consultar alumno'));
+           }
+     </script>
+</body>
+</html>

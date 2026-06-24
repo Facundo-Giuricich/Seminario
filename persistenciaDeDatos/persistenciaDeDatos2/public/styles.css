@@ -1,0 +1,25 @@
+body {
+  font-family: Arial;
+  background-color: #ffe4ec;
+  text-align: center;
+}
+
+.container {
+  background: #fff0f5;
+  padding: 20px;
+  width: 300px;
+  margin: auto;
+  border-radius: 10px;
+}
+
+input, button {
+  display: block;
+  margin: 10px auto;
+  padding: 8px;
+}
+
+button {
+  background: #ff66a3;
+  color: white;
+  border: none;
+}
